@@ -10,10 +10,19 @@ export const generatePDF = async (elementId: string, fileName: string = 'resume.
       return false;
     }
 
+    // Give the browser a moment to finish any pending rendering
+    await new Promise(resolve => setTimeout(resolve, 500));
+
     const canvas = await html2canvas(element, {
       scale: 2,
       useCORS: true,
-      logging: false
+      logging: false,
+      windowWidth: element.scrollWidth,
+      windowHeight: element.scrollHeight,
+      x: 0,
+      y: 0,
+      width: element.scrollWidth,
+      height: element.scrollHeight
     });
 
     const imgData = canvas.toDataURL('image/png');
@@ -23,20 +32,25 @@ export const generatePDF = async (elementId: string, fileName: string = 'resume.
       format: 'a4'
     });
 
-    const imgWidth = 210;
-    const pageHeight = 297;
+    // Calculate dimensions
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = pdf.internal.pageSize.getHeight();
+    const imgWidth = pdfWidth;
     const imgHeight = (canvas.height * imgWidth) / canvas.width;
+    
     let heightLeft = imgHeight;
     let position = 0;
 
+    // Add first page
     pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-    heightLeft -= pageHeight;
-
-    while (heightLeft >= 0) {
-      position = heightLeft - imgHeight;
+    heightLeft -= pdfHeight;
+    
+    // Add additional pages if needed
+    while (heightLeft > 0) {
+      position = -pdfHeight; // Move to next page
       pdf.addPage();
       pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
+      heightLeft -= pdfHeight;
     }
 
     pdf.save(fileName);
