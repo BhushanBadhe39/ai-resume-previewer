@@ -10,20 +10,34 @@ export const generatePDF = async (elementId: string, fileName: string = 'resume.
       return false;
     }
 
-    // Give the browser a moment to finish any pending rendering
+    // Give the browser more time to fully render the content
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    // Create a clone of the element to ensure proper rendering
+    const clone = element.cloneNode(true) as HTMLElement;
+    clone.style.position = 'absolute';
+    clone.style.left = '-9999px';
+    clone.style.top = '0';
+    clone.style.width = `${element.offsetWidth}px`;
+    document.body.appendChild(clone);
+
+    // Wait a bit more for the clone to be properly rendered
     await new Promise(resolve => setTimeout(resolve, 500));
 
-    const canvas = await html2canvas(element, {
+    const canvas = await html2canvas(clone, {
       scale: 2,
       useCORS: true,
       logging: false,
-      windowWidth: element.scrollWidth,
-      windowHeight: element.scrollHeight,
+      windowWidth: clone.scrollWidth,
+      windowHeight: clone.scrollHeight,
       x: 0,
       y: 0,
-      width: element.scrollWidth,
-      height: element.scrollHeight
+      width: clone.scrollWidth,
+      height: clone.scrollHeight
     });
+
+    // Remove the clone after capturing
+    document.body.removeChild(clone);
 
     const imgData = canvas.toDataURL('image/png');
     const pdf = new jsPDF({
@@ -32,7 +46,7 @@ export const generatePDF = async (elementId: string, fileName: string = 'resume.
       format: 'a4'
     });
 
-    // Calculate dimensions
+    // Calculate dimensions to fit within A4 page
     const pdfWidth = pdf.internal.pageSize.getWidth();
     const pdfHeight = pdf.internal.pageSize.getHeight();
     const imgWidth = pdfWidth;

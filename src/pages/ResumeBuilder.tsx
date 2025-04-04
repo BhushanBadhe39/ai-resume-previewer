@@ -4,9 +4,8 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
-import { Download, LogOut, Paperclip, Save } from "lucide-react";
+import { Download, LogOut, Paperclip } from "lucide-react";
 
 import PersonalInfoForm from "@/components/resume/PersonalInfoForm";
 import ExperienceForm from "@/components/resume/ExperienceForm";
@@ -29,6 +28,10 @@ const ResumeBuilder: React.FC = () => {
   const handleDownloadPDF = async () => {
     setIsDownloading(true);
     try {
+      toast.info("Preparing your resume for download...");
+      // Wait a moment to ensure the UI is updated with the toast
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
       const success = await generatePDF('resume-preview', `resume_${user?.name || 'document'}.pdf`);
       if (success) {
         toast.success("Resume downloaded successfully!");
@@ -153,7 +156,7 @@ const ResumeBuilder: React.FC = () => {
             </Button>
           </div>
           <div className="h-[calc(100vh-13rem)] p-1 bg-gray-100 overflow-auto">
-            <div id="resume-preview" className="w-full h-full">
+            <div id="resume-preview" className="w-full">
               <ResumePreview />
             </div>
           </div>

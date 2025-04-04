@@ -6,7 +6,7 @@ const ResumePreview: React.FC = () => {
   const { personalInfo, experiences, education, skills } = resumeData;
 
   return (
-    <div className="w-full h-full overflow-auto bg-white shadow-lg p-8 text-left">
+    <div className="w-full bg-white shadow-lg p-8 text-left">
       {/* Header Section */}
       <div className="border-b border-resume-accent pb-4 mb-6">
         <h1 className="text-3xl font-bold text-resume-accent mb-1">
