@@ -10,6 +10,16 @@ const SkillsForm: React.FC = () => {
   const { resumeData, addSkill, updateSkill, removeSkill } = useResume();
   const { skills } = resumeData;
 
+  const handleUpdateSkill = (id: string, value: string) => {
+    updateSkill(id, value);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, id: string) => {
+    if (e.key === 'Enter' && (e.target as HTMLInputElement).value.trim() !== '') {
+      addSkill();
+    }
+  };
+
   return (
     <Card className="border-0 shadow-none">
       <CardHeader className="flex flex-row items-center justify-between px-0 pt-6">
@@ -58,15 +68,11 @@ const SkillsForm: React.FC = () => {
             <div className="flex gap-2 w-full">
               <Input
                 value={skills[skills.length - 1].name}
-                onChange={(e) => updateSkill(skills[skills.length - 1].id, e.target.value)}
+                onChange={(e) => handleUpdateSkill(skills[skills.length - 1].id, e.target.value)}
                 placeholder="Enter a skill"
                 className="flex-1"
                 autoFocus
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' && skills[skills.length - 1].name.trim() !== '') {
-                    addSkill();
-                  }
-                }}
+                onKeyDown={(e) => handleKeyDown(e, skills[skills.length - 1].id)}
               />
               <Button 
                 variant="ghost" 
