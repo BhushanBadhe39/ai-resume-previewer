@@ -9,12 +9,12 @@ const ResumePreview: React.FC = () => {
     <div className="w-full bg-white shadow-lg p-8 text-left">
       {/* Header Section */}
       <div className="border-b border-resume-accent pb-4 mb-6">
-        <h1 className="text-3xl font-bold text-resume-accent mb-1">
+        <h1 className="text-2xl font-bold text-resume-accent mb-1">
           {personalInfo.firstName} {personalInfo.lastName}
         </h1>
-        <h2 className="text-xl text-gray-700 mb-2">{personalInfo.jobTitle}</h2>
+        <h2 className="text-lg text-gray-700 mb-2">{personalInfo.jobTitle}</h2>
         
-        <div className="flex flex-wrap justify-between text-sm text-gray-600">
+        <div className="flex flex-wrap justify-between text-xs text-gray-600">
           {personalInfo.address && (
             <span className="mb-1">{personalInfo.address}</span>
           )}
@@ -32,35 +32,35 @@ const ResumePreview: React.FC = () => {
       {/* Summary Section */}
       {personalInfo.summary && (
         <div className="mb-6">
-          <p className="text-gray-700 text-sm">{personalInfo.summary}</p>
+          <p className="text-xs text-gray-700">{personalInfo.summary}</p>
         </div>
       )}
 
-      {/* Professional Experience Section - reduced font sizes */}
+      {/* Professional Experience Section - further reduced font sizes */}
       {experiences.length > 0 && (
         <div className="mb-6">
-          <h3 className="text-base font-semibold text-resume-primary border-b border-gray-200 pb-1 mb-3">
+          <h3 className="text-sm font-semibold text-resume-primary border-b border-gray-200 pb-1 mb-3">
             Professional Experience
           </h3>
           
           {experiences.map((exp) => (
             <div key={exp.id} className="mb-4">
               <div className="flex justify-between items-baseline mb-1">
-                <h4 className="text-sm font-semibold">{exp.position}</h4>
-                <div className="text-xs text-gray-600">
+                <h4 className="text-xs font-semibold">{exp.position}</h4>
+                <div className="text-[10px] text-gray-600">
                   {exp.startDate} {exp.endDate && `- ${exp.endDate}`}
                 </div>
               </div>
               
               <div className="flex justify-between items-baseline mb-2">
-                <div className="text-xs font-medium text-gray-700">{exp.company}</div>
+                <div className="text-[10px] font-medium text-gray-700">{exp.company}</div>
                 {exp.location && (
-                  <div className="text-xs text-gray-600">{exp.location}</div>
+                  <div className="text-[10px] text-gray-600">{exp.location}</div>
                 )}
               </div>
               
               {exp.description.length > 0 && exp.description[0] !== "" && (
-                <ul className="list-disc list-outside ml-5 text-xs text-gray-700 space-y-1">
+                <ul className="list-disc list-outside ml-5 text-[10px] text-gray-700 space-y-1">
                   {exp.description.map((bullet, index) => (
                     bullet.trim() !== "" && (
                       <li key={index}>{bullet}</li>
@@ -73,26 +73,26 @@ const ResumePreview: React.FC = () => {
         </div>
       )}
 
-      {/* Education Section - reduced font sizes */}
+      {/* Education Section - further reduced font sizes */}
       {education.length > 0 && (
         <div className="mb-6">
-          <h3 className="text-base font-semibold text-resume-primary border-b border-gray-200 pb-1 mb-3">
+          <h3 className="text-sm font-semibold text-resume-primary border-b border-gray-200 pb-1 mb-3">
             Education
           </h3>
           
           {education.map((edu) => (
             <div key={edu.id} className="mb-4">
               <div className="flex justify-between items-baseline mb-1">
-                <h4 className="text-sm font-semibold">{edu.degree} {edu.fieldOfStudy && `in ${edu.fieldOfStudy}`}</h4>
-                <div className="text-xs text-gray-600">
+                <h4 className="text-xs font-semibold">{edu.degree} {edu.fieldOfStudy && `in ${edu.fieldOfStudy}`}</h4>
+                <div className="text-[10px] text-gray-600">
                   {edu.startDate} {edu.endDate && `- ${edu.endDate}`}
                 </div>
               </div>
               
               <div className="flex justify-between items-baseline">
-                <div className="text-xs font-medium text-gray-700">{edu.institution}</div>
+                <div className="text-[10px] font-medium text-gray-700">{edu.institution}</div>
                 {edu.location && (
-                  <div className="text-xs text-gray-600">{edu.location}</div>
+                  <div className="text-[10px] text-gray-600">{edu.location}</div>
                 )}
               </div>
             </div>
@@ -100,17 +100,17 @@ const ResumePreview: React.FC = () => {
         </div>
       )}
 
-      {/* Skills Section - reduced font sizes */}
+      {/* Skills Section - further reduced font sizes */}
       {skills.length > 0 && skills.some(skill => skill.name.trim() !== "") && (
         <div>
-          <h3 className="text-base font-semibold text-resume-primary border-b border-gray-200 pb-1 mb-3">
+          <h3 className="text-sm font-semibold text-resume-primary border-b border-gray-200 pb-1 mb-3">
             Skills
           </h3>
           
           <div className="flex flex-wrap gap-2">
             {skills.map((skill) => (
               skill.name.trim() !== "" && (
-                <span key={skill.id} className="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs">
+                <span key={skill.id} className="bg-gray-100 text-gray-700 px-2 py-1 rounded text-[10px]">
                   {skill.name}
                 </span>
               )
